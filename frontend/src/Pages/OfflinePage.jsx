@@ -1,8 +1,57 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Grid, Avatar, Button } from "@mui/material";
+import { playRound, getRandomChoice} from "../Services/OfflineGameLogic";
 
 function OfflinePage() {
+
+  const [userInput, setUserInput] = useState('undefine');
+  const [computervalue, setcomputervalue] = useState('undefine');
+  const [resultStatus, setresultStatus] = useState('');
+  const [time, settime] = useState(null);
+  const [resultIsVissible, setresultIsVissible] = useState(false);
+  const [winingScore, setWinningScore] = useState(0);
+  const [totalrounds, setTotalrounds] = useState(0);
+
+  useEffect(() => {
+        let timerId = null;
+        if (time > 0) {
+            timerId = setTimeout(() => settime(time - 1), 1000);
+        } else if (time === 0) {
+            handleCountComplete();
+        }
+
+        return () => clearTimeout(timerId);
+    }, [time]);
+
+  useEffect(() => {
+    if (computervalue !== "undefine") { 
+        const result = playRound(userInput, computervalue);
+        if(result==='win'){setWinningScore(winingScore + 1)}
+        setTotalrounds(totalrounds + 1);
+        setresultStatus(result);
+    }
+}, [computervalue, userInput]);
+
+//Handle Start Batle Button
+  const hanbleBatleButton = () => {
+    settime(3);
+  };
+
+  //Handle PLay Again Button
+  const hanblePlayAgainButton = () => {
+    setUserInput('undefine');
+    setcomputervalue('undefine');
+    setresultStatus('');
+    settime(null);
+    setresultIsVissible(false);
+  };
+//Functions wich should exeute after the timer
+  const handleCountComplete = async() => { 
+    setcomputervalue( await getRandomChoice());
+    setresultIsVissible(true);
+  };
+
   return (
     <div>
       <Box
@@ -25,22 +74,43 @@ function OfflinePage() {
             item
             xs={5}
             sx={{
-              backgroundImage: `url('/Images/scissors.png')`,
+              backgroundImage: `url('/Images/${userInput}.png')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           ></Grid>
-          <Grid item xs={2} sx={{
-              backgroundImage: `url('/Images/win.png')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center", 
-              }}
-          ></Grid>
+          <Grid item xs={2}>
+            {resultIsVissible && (
+              <Box sx={{
+                backgroundImage: `url('/Images/${resultStatus}.png')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center", 
+                height: "100%", 
+                width: "100%"
+              }} />
+            )}
+            {!resultIsVissible && (
+              <Box fullWidth sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.3)",
+                borderRadius:'40px',
+                position: "sticky",
+                height:"100%", 
+                display: "flex",
+                flexDirection:'column',
+                alignItems: "center",  
+                justifyContent: "center" 
+              }}>
+                <h2 style={{ color: 'black',fontSize:'30px' }}>Select Within: </h2>
+                <h2 style={{ color: 'black',fontSize:'100px' }}>{time}</h2>
+              </Box>
+            )}
+          </Grid>
+
           <Grid
             item
             xs={5}
             sx={{
-              backgroundImage: `url('/Images/rock.png')`,
+              backgroundImage: `url('/Images/${computervalue}.png')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               transform: "scaleX(-1)"
@@ -57,6 +127,7 @@ function OfflinePage() {
         <Avatar
           alt="Remy Sharp"
           src="/Images/rock.png"
+          onClick={() =>{setUserInput('rock')}}
           sx={{
             width: 70,
             height: 70,
@@ -68,6 +139,7 @@ function OfflinePage() {
         <Avatar
           alt="Remy Sharp"
           src="/Images/paper.png"
+          onClick={() =>{setUserInput('paper')}}
           sx={{
             width: 70,
             height: 70,
@@ -78,7 +150,8 @@ function OfflinePage() {
         />
         <Avatar
           alt="Remy Sharp"
-          src="/Images/scissors.png"
+          src="/Images/scissor.png"
+          onClick={() =>{setUserInput('scissor')}}
           sx={{
             width: 70,
             height: 70,
@@ -87,8 +160,11 @@ function OfflinePage() {
             border: "solid red",
           }}
         />
-        <Button variant="contained" sx={{marginLeft:'auto',backgroundColor:'black', borderRadius:'30px', height:'50px',marginTop:'20px'}}>
+        <Button onClick={hanbleBatleButton} variant="contained" sx={{marginLeft:'auto',backgroundColor:'black', borderRadius:'30px', height:'50px',marginTop:'20px'}}>
           Start the Battle
+        </Button>
+        <Button onClick={hanblePlayAgainButton} variant="contained" sx={{marginLeft:'auto',backgroundColor:'black', borderRadius:'30px', height:'50px',marginTop:'20px'}}>
+          Play Again
         </Button>
         <Box
           sx={{
@@ -99,7 +175,7 @@ function OfflinePage() {
           }}
         >
           <span style={{ fontSize: "30px", textAlign: "center" }}>
-            Score : 5 / 10
+            Score : {winingScore} / {totalrounds}
           </span>
         </Box>
       </Box>
