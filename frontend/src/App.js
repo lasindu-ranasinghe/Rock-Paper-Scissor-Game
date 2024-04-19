@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import OfflinePage from "./Pages/OfflinePage";
+import SinglePayerPage from "./Pages/SinglePayerPage";
+import MenuPage from "./Pages/MenuPage";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
           backgroundPosition: "center",
         }}
       >
-        <OfflinePage />
+        {/* <SinglePayerPage /> */}
+        <MenuPage />
       </Box>
     </div>
   );

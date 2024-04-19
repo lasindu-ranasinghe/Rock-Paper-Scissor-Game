@@ -1,0 +1,15 @@
+# Dependency directories
+/node_modules
+/.pnp
+.pnp.js
+
+# Environment configuration
+.env
+
+# Log files
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
