@@ -15,8 +15,8 @@ function App() {
           backgroundPosition: "center",
         }}
       >
-        {/* <SinglePayerPage /> */}
-        <MenuPage />
+        <SinglePayerPage /> 
+        // <MenuPage />
       </Box>
     </div>
   );
