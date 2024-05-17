@@ -30,8 +30,8 @@ Ensure you have the following installed on your local development machine:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/yourusername/rock-paper-scissors.git
-   cd rock-paper-scissors
+   git clone https://github.com/lasindu-ranasinghe/Rock-Paper-Scissor-Game.git
+   cd Rock-Paper-Scissor-Game
    ```
 
 2. **Install dependencies**:
