@@ -2,6 +2,9 @@
 
 Welcome to the Rock Paper Scissors online game repository. This project allows players to enjoy a classic game of Rock Paper Scissors both offline and, in the future, online in real-time. The project is built using React for the frontend and Node.js for the backend.
 
+![image](https://github.com/lasindu-ranasinghe/Rock-Paper-Scissor-Game/assets/116148700/2d4060bf-d23c-4660-862b-3bffead32a8b)
+
+
 ## Features
 
 - **Offline Play**: Enjoy playing Rock Paper Scissors against a computer opponent.
